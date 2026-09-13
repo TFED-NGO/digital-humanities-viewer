@@ -9,7 +9,6 @@ import { EVTModelService } from '../services/evt-model.service';
 import { EVTStatusService } from '../services/evt-status.service';
 import { ThemesService } from '../services/themes.service';
 import { EVTBtnClickEvent } from '../ui-components/button/button.component';
-import { normalizeUrl } from '../utils/js-utils';
 
 @Component({
   selector: 'evt-main-header',
@@ -30,7 +29,6 @@ export class MainHeaderComponent {
   public editions: SiteEditionEntry[] = this.editionContext.editions;
   public activeEditionSlug = this.editionContext.activeSlug;
   public editionConfig: EditionConfig = AppConfig.evtSettings.edition;
-  get editionHome() { return normalizeUrl(this.editionConfig.editionHome); }
 
   get logoUrl() {
     return AppConfig?.evtSettings?.files?.logoUrl ?? 'assets/images/logo_white.png';

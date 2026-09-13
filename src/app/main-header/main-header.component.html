@@ -2,10 +2,6 @@
     <a class="navbar-brand" [href]="tocUrl" title="Back to the table of contents">
         <img [src]="logoUrl" height="30" class="d-inline-block align-top me-2" alt="">
         <span class="edition-font pointer">{{ (title$ | async) | translate }}</span>
-        <a *ngIf="editionHome" [href]="editionHome" target="_blank"
-            class="ms-2 edition-home-link">
-            <evt-icon [iconInfo]="{icon: 'external-link-alt', iconSet: 'fas' }"></evt-icon>
-        </a>
         <span class="ms-2 badge badge-pill badge-info inverted font-weight-normal edition-badge" *ngIf="editionConfig?.badge">{{editionConfig?.badge}}</span>
     </a>
     <div class="d-flex align-items-center">
