@@ -49,7 +49,7 @@ This repository serves **several digital editions from one Angular app**, deploy
 
 ### Deploying
 
-Pushing to `master` runs `.github/workflows/gh-pages.yml`, which builds with `--base-href /` and deploys with `actions/deploy-pages`. In the repository settings, set **Pages → Source** to **GitHub Actions**. For the custom domain, set it in the Pages settings and add a `CNAME` file (e.g. `src/CNAME`, listed under `assets` in `angular.json`) so it survives each deploy. If the site ever moves to a sub-path (`https://<org>.github.io/<repo>/`), change `<base href>` in `src/index.html`, `--base-href` in `package.json`, and `pathSegmentsToKeep` in `src/404.html` to `1`.
+Pushing to `master` runs `.github/workflows/gh-pages.yml`, which builds with `--base-href /` and deploys with `actions/deploy-pages`. In the repository settings, set **Pages → Source** to **GitHub Actions**. The custom domain is set in the Pages settings; the repo-root `CNAME` file is copied into the build (see `assets` in `angular.json`) so the artifact carries it too. If the site ever moves to a sub-path (`https://<org>.github.io/<repo>/`), change `<base href>` in `src/index.html`, `--base-href` in `package.json`, and `pathSegmentsToKeep` in `src/404.html` to `1`.
 
 2 - A short guide to EVT
 --------------------------------

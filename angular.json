@@ -25,7 +25,12 @@
             "assets": [
               "src/favicon.ico",
               "src/404.html",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "CNAME",
+                "input": ".",
+                "output": "/"
+              }
             ],
             "styles": [
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
