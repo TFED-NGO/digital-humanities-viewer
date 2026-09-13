@@ -1,6 +1,6 @@
 {
   "editionUrls": [
-    "https://tfed-ngo.github.io/Boulogne/edition.xml"
+    "https://tfed-ngo.github.io/boulogne/edition.xml"
   ],
   "editionImagesSource": {
     "manifest": {
@@ -13,7 +13,7 @@
     }
   },
   "imagesFolderUrls": {
-    "single": "https://tfed-ngo.github.io/Boulogne/data/images/single/"
+    "single": "https://tfed-ngo.github.io/boulogne/data/images/single/"
   },
   "configurationUrls": {
     "edition": "assets/editions/boulogne/edition_config.json",

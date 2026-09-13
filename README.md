@@ -38,7 +38,7 @@ This repository serves **several digital editions from one Angular app**, deploy
 - `src/assets/editions/<slug>/` holds that edition's four EVT config files (`file_config.json`, `edition_config.json`, `ui_config.json`, `editorial_conventions_config.json`). `file_config.json` points at the TEI (usually a remote `https://tfed-ngo.github.io/<Text>/edition.xml`) and images.
 - At startup (`AppConfig.load`, run as `APP_INITIALIZER`) the app reads the registry, takes the first URL segment as the slug, and loads that edition's configuration **before Angular boots**. On `/` it loads the default edition's configuration so the shell has something to render, but shows the table of contents instead of the viewer.
 - Because configuration is fixed for the lifetime of a page load, **switching edition is a full page navigation** (plain links on the home page, `window.location.assign` in the header switcher). This is deliberate: dozens of EVT parsers and components read `AppConfig.evtSettings` when they are constructed, so an in-app switch would leave them holding the previous edition's settings.
-- `EditionGuard` protects `/:edition`: the active slug passes, another valid slug triggers the full navigation, an unknown slug goes to `/`.
+- `EditionGuard` protects `/:edition`: the active slug passes, another valid slug triggers the full navigation, an unknown slug renders the 404 page (`NotFoundComponent`) without changing the address bar.
 - Deep links on GitHub Pages use the [spa-github-pages](https://github.com/rafgraph/spa-github-pages) trick: `src/404.html` redirects `/oswald/readingText` to `/?/oswald/readingText`, and the inline script in `src/index.html` restores the real URL before Angular starts.
 
 ### Adding an edition

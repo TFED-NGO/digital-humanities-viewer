@@ -1,0 +1,11 @@
+<div class="not-found ui-font">
+  <h1 class="not-found__title edition-font">Text not found</h1>
+  <p class="not-found__message">There is no edition at <code>{{ requestedPath }}</code>.</p>
+  <p class="not-found__hint">Available editions:</p>
+  <ul class="not-found__list">
+    <li *ngFor="let edition of editions; trackBy: trackBySlug">
+      <a [href]="href(edition)">{{ edition.label }}</a>
+    </li>
+  </ul>
+  <p><a routerLink="/">Back to the table of contents</a></p>
+</div>

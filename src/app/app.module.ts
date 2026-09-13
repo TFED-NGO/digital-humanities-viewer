@@ -19,6 +19,7 @@ import { AppTranslationModule } from './app-translation.module';
 import { AppComponent } from './app.component';
 import { EditionDefaultRedirectComponent } from './edition-home/edition-default-redirect.component';
 import { EditionHomeComponent } from './edition-home/edition-home.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
 import { AppConfig } from './app.config';
@@ -214,6 +215,7 @@ const DynamicComponents = [
   declarations: [
     EditionHomeComponent,
     EditionDefaultRedirectComponent,
+    NotFoundComponent,
     AnalogueDetailComponent,
     AnaloguesComponent,
     AnnotatorDirective,
