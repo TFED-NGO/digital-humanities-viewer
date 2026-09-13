@@ -1,7 +1,7 @@
 <nav class="navbar justify-content-between temp-header">
-    <a class="navbar-brand" routerLink="/" title="All editions">
+    <a class="navbar-brand" [href]="tocUrl" title="Back to the table of contents">
         <img [src]="logoUrl" height="30" class="d-inline-block align-top me-2" alt="">
-        <span (click)="openEditionHome()" class="edition-font" [class.pointer]="editionHome">{{ (title$ | async) | translate }}</span>
+        <span class="edition-font pointer">{{ (title$ | async) | translate }}</span>
         <a *ngIf="editionHome" [href]="editionHome" target="_blank"
             class="ms-2 edition-home-link">
             <evt-icon [iconInfo]="{icon: 'external-link-alt', iconSet: 'fas' }"></evt-icon>

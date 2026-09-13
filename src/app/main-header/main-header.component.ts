@@ -77,10 +77,9 @@ export class MainHeaderComponent {
     return item.id;
   }
 
-  openEditionHome() {
-    if (this.editionHome) {
-      window.open(this.editionHome, '_blank');
-    }
+  /** Site root (table of contents). A plain href, so the page reloads without any edition open. */
+  get tocUrl() {
+    return document.baseURI;
   }
 
 }
