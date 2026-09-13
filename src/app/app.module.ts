@@ -14,10 +14,11 @@ import { DynamicAttributesModule, DynamicModule } from 'ng-dynamic-component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { UiComponentsModule } from './ui-components/ui-components.module';
 
-import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppTranslationModule } from './app-translation.module';
 import { AppComponent } from './app.component';
+import { EditionDefaultRedirectComponent } from './edition-home/edition-default-redirect.component';
+import { EditionHomeComponent } from './edition-home/edition-home.component';
 
 import { Ng2HandySyntaxHighlighterModule } from 'ng2-handy-syntax-highlighter';
 import { AppConfig } from './app.config';
@@ -147,9 +148,6 @@ import { WitnessPanelComponent } from './panels/witness-panel/witness-panel.comp
 import { XmlBeautifyPipe } from './pipes/xml-beautify.pipe';
 import { XMLParsers } from './services/xml-parsers/xml-parsers';
 
-const routes: Routes = [
-];
-
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
 }
@@ -214,6 +212,8 @@ const DynamicComponents = [
 
 @NgModule({
   declarations: [
+    EditionHomeComponent,
+    EditionDefaultRedirectComponent,
     AnalogueDetailComponent,
     AnaloguesComponent,
     AnnotatorDirective,
@@ -297,7 +297,6 @@ const DynamicComponents = [
     NgbPopoverModule,
     NgxSliderModule,
     NgxSpinnerModule,
-    RouterModule.forRoot(routes, { useHash: true, relativeLinkResolution: 'legacy' }),
     ScrollingModule,
     UiComponentsModule,
   ],

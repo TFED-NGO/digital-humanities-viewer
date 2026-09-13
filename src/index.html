@@ -2,11 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>EvtViewerAngular</title>
-  <base href="./">
+  <title>Digital Editions</title>
+  <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="assets/config/custom-styles.css">
+  <script type="text/javascript">
+    // GitHub Pages deep links: 404.html rewrites /oswald/readingText?p=1 to /?/oswald/readingText&p=1.
+    // Restore the real URL before Angular boots so the router and EditionContextService see it.
+    // https://github.com/rafgraph/spa-github-pages
+    (function (l) {
+      if (l.search[1] === '/') {
+        var decoded = l.search.slice(1).split('&').map(function (s) { return s.replace(/~and~/g, '&'); }).join('?');
+        window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+      }
+    }(window.location));
+  </script>
 </head>
 <body>
   <evt-root></evt-root>

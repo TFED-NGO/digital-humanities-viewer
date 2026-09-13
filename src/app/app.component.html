@@ -1,8 +1,8 @@
-<evt-main-header></evt-main-header>
-<div class="temp-panel" [ngClass]="{'has-navbar': navbarOpened$ | async}">
+<evt-main-header *ngIf="editionOpen"></evt-main-header>
+<div class="temp-panel" [ngClass]="{'has-navbar': editionOpen && (navbarOpened$ | async), 'edition-home-active': !editionOpen}">
   <router-outlet></router-outlet>
 </div>
-<ng-container *ngIf="hasNavBar">
+<ng-container *ngIf="editionOpen && hasNavBar">
   <span class="navbar-toggler" [ngClass]="{opened: navbarOpened$ | async}" (click)="toggleToolbar()" [title]="'toggleToolbar' | translate">
     <evt-icon [iconInfo]="navbarTogglerIcon$ | async"></evt-icon>
   </span>

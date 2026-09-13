@@ -21,6 +21,36 @@ Before the refactoring, EVT was composed of two main units: EVT Builder, for the
 At the present moment, EVT is being moved from AngularJS to Angular.
 For a complete list of features, please refer to the [AngularJS version] (https://github.com/evt-project/evt-viewer)
 
+
+## Multi-edition site (this fork)
+
+This repository serves **several digital editions from one Angular app**, deployed to GitHub Pages at the domain root.
+
+| URL | What it shows |
+|-----|---------------|
+| `/` | Table of contents: one link per edition |
+| `/<slug>` | That edition, in its default view mode |
+| `/<slug>/<viewMode>?p=…&el=…` | That edition, in a specific view mode / page / edition level |
+
+### How it works
+
+- `src/assets/editions.json` is the registry: `defaultEdition` plus one `{ slug, label }` per edition.
+- `src/assets/editions/<slug>/` holds that edition's four EVT config files (`file_config.json`, `edition_config.json`, `ui_config.json`, `editorial_conventions_config.json`). `file_config.json` points at the TEI (usually a remote `https://tfed-ngo.github.io/<Text>/edition.xml`) and images.
+- At startup (`AppConfig.load`, run as `APP_INITIALIZER`) the app reads the registry, takes the first URL segment as the slug, and loads that edition's configuration **before Angular boots**. On `/` it loads the default edition's configuration so the shell has something to render, but shows the table of contents instead of the viewer.
+- Because configuration is fixed for the lifetime of a page load, **switching edition is a full page navigation** (plain links on the home page, `window.location.assign` in the header switcher). This is deliberate: dozens of EVT parsers and components read `AppConfig.evtSettings` when they are constructed, so an in-app switch would leave them holding the previous edition's settings.
+- `EditionGuard` protects `/:edition`: the active slug passes, another valid slug triggers the full navigation, an unknown slug goes to `/`.
+- Deep links on GitHub Pages use the [spa-github-pages](https://github.com/rafgraph/spa-github-pages) trick: `src/404.html` redirects `/oswald/readingText` to `/?/oswald/readingText`, and the inline script in `src/index.html` restores the real URL before Angular starts.
+
+### Adding an edition
+
+1. Create `src/assets/editions/<slug>/` (lowercase letters, digits, hyphens). Copy the four JSON files from an existing edition and edit `file_config.json` (`editionUrls`, `imagesFolderUrls`, and the three `configurationUrls`, which must point into the new folder) and `edition_config.json` (`editionTitle`, `defaultViewMode`, …).
+2. Add `{ "slug": "<slug>", "label": "Display name" }` to `src/assets/editions.json`.
+3. `npm start`, open `http://localhost:4205/<slug>` and reload it to confirm the deep link survives.
+
+### Deploying
+
+Pushing to `master` runs `.github/workflows/gh-pages.yml`, which builds with `--base-href /` and deploys with `actions/deploy-pages`. In the repository settings, set **Pages → Source** to **GitHub Actions**. For the custom domain, set it in the Pages settings and add a `CNAME` file (e.g. `src/CNAME`, listed under `assets` in `angular.json`) so it survives each deploy. If the site ever moves to a sub-path (`https://<org>.github.io/<repo>/`), change `<base href>` in `src/index.html`, `--base-href` in `package.json`, and `pathSegmentsToKeep` in `src/404.html` to `1`.
+
 2 - A short guide to EVT
 --------------------------------
 If you are interested in **using** EVT to prepare an edition right away, you should probably download the ready-to-use release package that can be downloaded from the [release page on GitHub](https://github.com/evt-project/evt-viewer-angular/releases). See the *Installation and use* section first, then *Configuration*, to understand how EVT works and how you can use it to publish your editions. A more detailed guide will be published separately, as a reference manual, and will also include instructions about customization.

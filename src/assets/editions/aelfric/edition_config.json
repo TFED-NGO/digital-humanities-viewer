@@ -1,7 +1,7 @@
 {
-  "editionTitle": "My Digital Edition",
+  "editionTitle": "Aelfric's Lives of Saints I, Published",
   "badge": "alpha",
-  "editionHome": "evt.labcd.unipi.it/",
+  "editionHome": "tfed.ngo/",
   "availableEditionLevels": [
     {
       "id": "diplomatic",
@@ -28,7 +28,7 @@
       "hidden": true
     }
   ],
-  "downloadableXMLSource": true,
+  "downloadableXMLSource": false,
   "namedEntitiesLists": {
     "persons": {
       "defaultLabel": "Persons",
@@ -109,8 +109,8 @@
   "notSignificantVariants": [
     "type=orthographic"
   ],
-  "defaultEdition": "critical",
-  "defaultViewMode": "collation",
+  "defaultEdition": "diplomatic",
+  "defaultViewMode": "imageText",
   "proseVersesToggler": true,
   "defaultTextFlow": "prose",
   "verseNumberPrinter": 5,

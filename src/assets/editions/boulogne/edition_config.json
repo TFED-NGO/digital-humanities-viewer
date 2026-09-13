@@ -1,7 +1,7 @@
 {
-  "editionTitle": "Progetto Saba1919",
-  "badge": "beta",
-  "editionHome": "",
+  "editionTitle": "Boulogne Sermon, Published",
+  "badge": "alpha",
+  "editionHome": "tfed.ngo/",
   "availableEditionLevels": [
     {
       "id": "diplomatic",
@@ -109,10 +109,10 @@
   "notSignificantVariants": [
     "type=orthographic"
   ],
-  "defaultEdition": "changesView",
-  "defaultViewMode": "documentalMixed",
+  "defaultEdition": "diplomatic",
+  "defaultViewMode": "imageText",
   "proseVersesToggler": true,
-  "defaultTextFlow": "verses",
+  "defaultTextFlow": "prose",
   "verseNumberPrinter": 5,
   "readingColorLight": "rgb(208, 220, 255)",
   "readingColorDark": "rgb(101, 138, 255)",
@@ -143,7 +143,8 @@
       "showVarSeqAttr": false,
       "showSeqAttr": false,
       "layerColors": []
-    }
+    },
+    "defaultImageZoomLevel": 0.8
   },
   "analogueMarkers": [
     "ParallelPassage",
@@ -156,7 +157,7 @@
   ],
   "showSubstitutionMarker": true,
   "showSeparatorBetweenChanges": true,
-  "startingFromDefinitiveLayer": false,
+  "startingFromDefinitiveLayer": true,
   "showChangeLayerMarkerInText": true,
   "changeSequenceView": {
     "showVarSeqAttr": false,
@@ -172,6 +173,5 @@
   },
   "defaultImageZoomLevel": 0.8,
   "maxImageZoomLevel": 2,
-  "multiPageEngineForCriticalEdition": false,
-  "syncZonesHighlightButton": false
+  "multiPageEngineForCriticalEdition": false
 }

@@ -5,6 +5,7 @@ import { distinctUntilChanged, filter, first, map, mergeMap, shareReplay, switch
 
 import { AppConfig, EditionLevelType } from '../app.config';
 import { ChangeLayerData, Page, ViewMode } from '../models/evt-models';
+import { EditionContextService } from './edition-context.service';
 import { EVTModelService } from './evt-model.service';
 import { deepSearch } from '../utils/dom-utils';
 
@@ -160,13 +161,18 @@ export class EVTStatusService {
         private evtModelService: EVTModelService,
         private router: Router,
         private route: ActivatedRoute,
+        private editionContext: EditionContextService,
     ) {
         this.currentStatus$.subscribe((currentStatus) => {
+            const slug = this.editionContext.activeSlug;
+            if (!slug) {
+                return; // home page: no edition is open, nothing to reflect in the URL
+            }
             const { view, params } = this.getUrlFromStatus(currentStatus);
             if (Object.keys(params).length > 0) {
-                this.router.navigate([`/${view}`], { queryParams: params });
+                this.router.navigate(['/', slug, view], { queryParams: params });
             } else {
-                this.router.navigate([`/${view}`]);
+                this.router.navigate(['/', slug, view]);
             }
         });
         this.router.events.pipe(
@@ -175,12 +181,9 @@ export class EVTStatusService {
         ).subscribe((event: NavigationStart) => {
             const currentViewMode = this.updateViewMode$.getValue();
             if (!currentViewMode) {
-                const pathMatch = event.url.match(/(?<!\?.+)(?<=\/)[\w-]+(?=[/\r\n?]|$)/gm);
-                if (pathMatch) {
-                    this.updateViewMode$.next(this.availableViewModes.find((vm) => vm.id === pathMatch[0]));
-                } else {
-                    this.updateViewMode$.next(this.defaultViewMode);
-                }
+                // URL is /:edition/:viewMode?...; the view mode is the second segment
+                const [, viewModeId] = event.url.split('?')[0].split('/').filter((seg) => seg.length > 0);
+                this.updateViewMode$.next(this.availableViewModes.find((vm) => vm.id === viewModeId) ?? this.defaultViewMode);
             }
         });
         this.currentNamedEntityId$.pipe(

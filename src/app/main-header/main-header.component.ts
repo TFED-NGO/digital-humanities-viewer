@@ -3,6 +3,8 @@ import { combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppConfig, EditionConfig } from '../app.config';
 import { ViewMode } from '../models/evt-models';
+import { SiteEditionEntry } from '../models/site-config';
+import { EditionContextService } from '../services/edition-context.service';
 import { EVTModelService } from '../services/evt-model.service';
 import { EVTStatusService } from '../services/evt-status.service';
 import { ThemesService } from '../services/themes.service';
@@ -25,6 +27,8 @@ export class MainHeaderComponent {
   public viewModes: ViewMode[] = AppConfig.evtSettings.ui.availableViewModes?.filter(((e) => e.enable)) ?? [];
   public currentViewMode$ = this.evtStatusService.currentViewMode$;
   public mainMenuOpened = false;
+  public editions: SiteEditionEntry[] = this.editionContext.editions;
+  public activeEditionSlug = this.editionContext.activeSlug;
   public editionConfig: EditionConfig = AppConfig.evtSettings.edition;
   get editionHome() { return normalizeUrl(this.editionConfig.editionHome); }
 
@@ -36,7 +40,21 @@ export class MainHeaderComponent {
     public themes: ThemesService,
     private evtModelService: EVTModelService,
     private evtStatusService: EVTStatusService,
+    private editionContext: EditionContextService,
   ) {
+  }
+
+  /** Full page load: the new edition's configuration must be loaded before anything renders. */
+  switchEdition(slug: string) {
+    const entry = this.editionContext.getEdition(slug);
+    if (entry && slug !== this.activeEditionSlug) {
+      const view = this.evtStatusService.updateViewMode$.getValue()?.id;
+      window.location.assign(this.editionContext.urlFor(entry, view));
+    }
+  }
+
+  trackEditions(_index: number, item: SiteEditionEntry) {
+    return item.slug;
   }
 
   selectViewMode(viewMode: ViewMode) {

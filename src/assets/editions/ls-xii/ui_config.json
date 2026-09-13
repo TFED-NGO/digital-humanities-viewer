@@ -26,21 +26,21 @@
 			"iconSet": "evt",
 			"id": "imageText",
 			"label": "Image Text",
-			"enable": false
+			"enable": true
 		},
 		{
 			"icon": "txtTxt",
 			"iconSet": "evt",
 			"id": "textText",
 			"label": "Text Text",
-			"enable": false
+			"enable": true
 		},
 		{
 			"icon": "collation",
 			"iconSet": "evt",
 			"id": "collation",
 			"label": "Collation",
-			"enable": false
+			"enable": true
 		},
 		{
 			"icon": "srcTxt",
@@ -61,7 +61,7 @@
 			"iconSet": "evt",
 			"id": "documentalMixed",
 			"label": "Documental",
-			"enable": true
+			"enable": false
 		}
 	],
 	"localization": true,
@@ -75,7 +75,7 @@
 		{
 			"code": "it",
 			"label": "languageIt",
-			"enable": true
+			"enable": false
 		}
 	],
 	"enableNavBar": true,

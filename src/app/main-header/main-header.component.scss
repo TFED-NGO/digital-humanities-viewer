@@ -65,3 +65,13 @@
     font-size: .9rem;
     vertical-align: text-bottom;
 }
+.edition-select {
+    max-width: 220px;
+    min-width: 140px;
+
+    @include themify($themes) {
+        color: themed('baseColorDark');
+        background-color: themed('baseColorLight');
+        border-color: themed('baseColorLight');
+    }
+}

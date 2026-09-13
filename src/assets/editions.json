@@ -1,0 +1,10 @@
+{
+  "defaultEdition": "ls-xii",
+  "editions": [
+    { "slug": "ls-xii",   "label": "Lives of Saints XII" },
+    { "slug": "aelfric",  "label": "Ælfric's Lives of Saints I" },
+    { "slug": "oswald",   "label": "Oswald" },
+    { "slug": "alcuin",   "label": "Alcuin, De Ratione" },
+    { "slug": "boulogne", "label": "Boulogne Sermon" }
+  ]
+}

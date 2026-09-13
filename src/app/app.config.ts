@@ -1,59 +1,74 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { forkJoin } from 'rxjs';
+import { firstValueFrom, forkJoin, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { EntitiesSelectItemGroup } from './components/entities-select/entities-select.component';
 import { AnalogueClass, SourceClass, ViewMode, ViewModeId } from './models/evt-models';
 import { Attributes, EditorialConventionLayout } from './models/evt-models';
+import { SiteConfig } from './models/site-config';
+import { EditionContextService } from './services/edition-context.service';
 import { updateCSS } from './utils/dom-utils';
 
 @Injectable()
 export class AppConfig {
     static evtSettings: EVTConfig;
-    private readonly uiConfigUrl = 'assets/config/ui_config.json';
-    private readonly fileConfigUrl = 'assets/config/file_config.json';
-    private readonly editionConfigUrl = 'assets/config/edition_config.json';
-    private readonly editorialConventionsConfigUrl = 'assets/config/editorial_conventions_config.json';
+    private readonly siteConfigUrl = 'assets/editions.json';
 
     constructor(
         public translate: TranslateService,
         private http: HttpClient,
+        private editionContext: EditionContextService,
     ) { }
 
-    load() {
-        return new Promise<void>((resolve) => {
-            this.http.get<FileConfig>(this.fileConfigUrl).pipe(
-                switchMap((files: FileConfig) => forkJoin([
-                    this.http.get<UiConfig>(files.configurationUrls?.ui ?? this.uiConfigUrl),
-                    this.http.get<EditionConfig>(files.configurationUrls?.edition ?? this.editionConfigUrl),
-                    this.http.get<EditorialConventionsConfig>(
-                        files.configurationUrls?.editorialConventions ?? this.editorialConventionsConfigUrl),
-                ]).pipe(
-                    map(([ui, edition, editorialConventions]) => {
-                        console.log(ui, edition, files);
-                        this.updateStyleFromConfig(edition, ui);
-                        // Handle default values => TODO: Decide how to handle defaults!!
-                        if (ui.defaultLocalization) {
-                            if (ui.availableLanguages.find((l) => l.code === ui.defaultLocalization && l.enable)) {
-                                this.translate.use(ui.defaultLocalization);
-                            } else {
-                                const firstAvailableLang = ui.availableLanguages.find((l) => l.enable);
-                                if (firstAvailableLang) {
-                                    this.translate.use(firstAvailableLang.code);
-                                }
-                            }
-                        }
+    /**
+     * Runs as APP_INITIALIZER. Reads the editions registry, picks the edition named by the first URL
+     * segment (falling back to the default edition, e.g. on the home page) and loads its four config files.
+     */
+    load(): Promise<void> {
+        return firstValueFrom(this.http.get<SiteConfig>(this.siteConfigUrl).pipe(
+            switchMap((siteConfig) => {
+                this.editionContext.init(siteConfig, EditionContextService.slugFromLocation());
+                const entry = this.editionContext.activeEdition ?? this.editionContext.defaultEdition;
+                if (!entry) {
+                    throw new Error('assets/editions.json lists no editions');
+                }
 
-                        return { ui, edition, files, editorialConventions };
-                    }),
-                )),
-            ).subscribe((evtConfig) => {
+                return this.loadEditionBundle(this.editionContext.fileConfigUrl(entry));
+            }),
+            map((evtConfig) => {
                 AppConfig.evtSettings = evtConfig;
-                console.log('evtConfig', evtConfig);
-                resolve();
-            });
-        });
+            }),
+        ));
+    }
+
+    private loadEditionBundle(fileConfigUrl: string): Observable<EVTConfig> {
+        return this.http.get<FileConfig>(fileConfigUrl).pipe(
+            switchMap((files: FileConfig) => forkJoin([
+                this.http.get<UiConfig>(files.configurationUrls.ui),
+                this.http.get<EditionConfig>(files.configurationUrls.edition),
+                this.http.get<EditorialConventionsConfig>(files.configurationUrls.editorialConventions),
+            ]).pipe(
+                map(([ui, edition, editorialConventions]) => {
+                    this.updateStyleFromConfig(edition, ui);
+                    this.applyLocalization(ui);
+
+                    return { ui, edition, files, editorialConventions };
+                }),
+            )),
+        );
+    }
+
+    private applyLocalization(ui: UiConfig) {
+        if (!ui.defaultLocalization) { return; }
+        if (ui.availableLanguages.find((l) => l.code === ui.defaultLocalization && l.enable)) {
+            this.translate.use(ui.defaultLocalization);
+        } else {
+            const firstAvailableLang = ui.availableLanguages.find((l) => l.enable);
+            if (firstAvailableLang) {
+                this.translate.use(firstAvailableLang.code);
+            }
+        }
     }
 
     /**

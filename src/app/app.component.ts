@@ -9,6 +9,7 @@ import { ThemesService } from './services/themes.service';
 import { ShortcutsService } from './shortcuts/shortcuts.service';
 import { EvtIconInfo } from './ui-components/icon/icon.component';
 import { EVTStatusService } from './services/evt-status.service';
+import { EditionContextService } from './services/edition-context.service';
 
 @Component({
   selector: 'evt-root',
@@ -18,6 +19,8 @@ import { EVTStatusService } from './services/evt-status.service';
 export class AppComponent implements OnDestroy {
   @ViewChild('mainSpinner') mainSpinner: ElementRef;
   private subscriptions: Subscription[] = [];
+  /** False on the home page (no edition open): header and nav bar are hidden. */
+  public editionOpen = !!this.editionContext.activeSlug;
   public hasNavBar = AppConfig.evtSettings.ui.enableNavBar;
   public navbarOpened$ = new BehaviorSubject(this.hasNavBar && AppConfig.evtSettings.ui.initNavBarOpened);
 
@@ -33,7 +36,7 @@ export class AppComponent implements OnDestroy {
     private themes: ThemesService,
     private titleService: Title,
     private evtStatusService: EVTStatusService,
-
+    private editionContext: EditionContextService,
   ) {
 
     this.evtStatusService.currentViewMode$.pipe().subscribe((view) => {
@@ -59,7 +62,7 @@ export class AppComponent implements OnDestroy {
           break;
       }
     });
-    this.titleService.setTitle(AppConfig.evtSettings.edition.editionTitle || 'EVT');
+    this.titleService.setTitle(this.editionOpen ? (AppConfig.evtSettings.edition.editionTitle || 'EVT') : 'Digital Editions');
   }
 
   @HostBinding('attr.data-theme') get dataTheme() { return this.themes.getCurrentTheme().value; }

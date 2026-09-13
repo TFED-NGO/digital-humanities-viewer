@@ -75,7 +75,7 @@
 		{
 			"code": "it",
 			"label": "languageIt",
-			"enable": true
+			"enable": false
 		}
 	],
 	"enableNavBar": true,
