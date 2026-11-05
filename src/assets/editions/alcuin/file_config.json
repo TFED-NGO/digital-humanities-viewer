@@ -1,6 +1,6 @@
 {
   "editionUrls": [
-    "https://tfed-ngo.github.io/Alcuin-De-Ratione/edition.xml"
+    "https://tfed-ngo.github.io/Alcuin-De-Ratione-Royal/edition.xml"
   ],
   "editionImagesSource": {
     "manifest": {
@@ -13,7 +13,7 @@
     }
   },
   "imagesFolderUrls": {
-    "single": "https://tfed-ngo.github.io/Alcuin-De-Ratione/data/images/single/"
+    "single": "https://tfed-ngo.github.io/Alcuin-De-Ratione-Royal/data/images/single/"
   },
   "configurationUrls": {
     "edition": "assets/editions/alcuin/edition_config.json",
