@@ -1,7 +1,6 @@
-
 {
   "editionUrls": [
-    "https://raw.githubusercontent.com/TFED-NGO/alcuin-de-ratione-harley/main/edition.xml"
+    "https://tfed-ngo.github.io/alcuin-de-ratione-harley/edition.xml"
   ],
   "editionImagesSource": {
     "manifest": {
@@ -14,11 +13,11 @@
     }
   },
   "imagesFolderUrls": {
-    "single": "https://raw.githubusercontent.com/TFED-NGO/alcuin-de-ratione-harley/main/data/images/single/"
+    "single": "https://tfed-ngo.github.io/alcuin-de-ratione-harley/data/images/single/"
   },
   "configurationUrls": {
     "edition": "assets/editions/alcuin-harley/edition_config.json",
-    "ui": "assets/editions/alcuin-harley/ui_config.json",
+    "ui": "assets/editions/alcuin/ui_config.json",
     "editorialConventions": "assets/editions/alcuin-harley/editorial_conventions_config.json"
   }
 }
