@@ -1,0 +1,23 @@
+{
+  "editionUrls": [
+    "https://tfed-ngo.github.io/alcuin-de-ratione-harley/edition.xml"
+  ],
+  "editionImagesSource": {
+    "manifest": {
+      "value": "https://www.e-codices.unifr.ch/metadata/iiif/csg-0730/manifest.json",
+      "enable": false
+    },
+    "graphics": {
+      "value": "url",
+      "enable": false
+    }
+  },
+  "imagesFolderUrls": {
+    "single": "https://tfed-ngo.github.io/alcuin-de-ratione-harley/data/images/single/"
+  },
+  "configurationUrls": {
+    "edition": "assets/editions/alcuin-harley/edition_config.json",
+    "ui": "assets/editions/alcuin-harley/ui_config.json",
+    "editorialConventions": "assets/editions/alcuin-harley/editorial_conventions_config.json"
+  }
+}
